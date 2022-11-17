@@ -1,0 +1,14 @@
+{
+  "name": "leet-code",
+  "version": "1.0.0",
+  "description": "Doing leet code exercises",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "aturkewi",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.3.1"
+  }
+}
