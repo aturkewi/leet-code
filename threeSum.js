@@ -1,9 +1,10 @@
 // https://leetcode.com/problems/3sum/
 
 var threeSum = function(nums) {
+  const cleanedNums = cleanNums(nums)
   let solutions = []
-  for(let i=0; i <= nums.length - 3; i++){
-    const res = sumGivenOne(nums[i], i, nums)
+  for(let i=0; i <= cleanedNums.length - 3; i++){
+    const res = sumGivenOne(cleanedNums[i], i, cleanedNums)
     if(res.length > 0){
       solutions = [...solutions, ...res]
     }
@@ -14,6 +15,38 @@ var threeSum = function(nums) {
 
   return solutions
 };
+
+const cleanNums = (nums) => {
+  nums.sort()
+  let numCount = 0
+  let currentNum = nums[0]
+
+  for(i=0; i < nums.length; i++){
+    // console.log(`i: ${i}`)
+    // console.log(`nums: ${nums}`)
+    if(nums[i] == currentNum){
+      // console.log('equal')
+      if(nums[i] == 0 && numCount < 3){
+        numCount++
+        // console.log(`0 numCount: ${numCount}`)
+      }else if(numCount < 2){
+        numCount++
+        // console.log(`non-0 numCount: ${numCount}`)
+      }else{
+        numCount++
+        // console.log(`need to delete! num: ${nums[i]}`)
+        nums.splice(i, 1)
+        i = i - 1
+      }
+    }else{
+      numCount = 1
+      currentNum = nums[i]
+      // console.log(`not equal, currentNum: ${currentNum}`)
+    }
+  }
+
+  return nums
+}
 
 const deDupe = (solutions) => {
   if(solutions.length <=1 ){
@@ -64,7 +97,6 @@ const sortSolutions = (solutions) => {
 const sumGivenOne = (numOne, i, nums) => {
   let solutions = []
   for(let j=i+1; j <= nums.length - 2; j++){
-    // console.log(`Hit with i:${i} and j:${j}`)
     const res = sumGivenTwo(numOne, nums[j], j, nums)
     if(res.length > 0){
       solutions = [...solutions, ...res]
@@ -77,16 +109,13 @@ const sumGivenOne = (numOne, i, nums) => {
 const sumGivenTwo = (numOne, numTwo, j, nums) => {
   let solutions = []
   for(let k=j+1; k <= nums.length - 1; k++){
-    // console.log(`SECOND with j:${j} and k:${k}`)
     const sum = numOne + numTwo + nums[k]
     if( sum == 0){
-      // console.log('I NEVER HIT')
       const solution = [numOne, numTwo, nums[k]].sort()
       solutions = [...solutions, solution]
     }
   }
-  // console.log(`sol leng ${solutions.length}`)
   return solutions
 }
 
-module.exports = { threeSum }
+module.exports = { threeSum, cleanNums }
