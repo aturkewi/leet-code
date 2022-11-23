@@ -6,17 +6,47 @@ const isValidSudoku = (board) => {
   // validate 3x3s
 };
 
+// const validateSquares = (board) => {
+
+// }
+
 const validateColumns = (board) => {
+  const coordinateSets = []
+  for(let column=0; column < 9; column++){
+    const coordinateSet = []
+    for(let row=0; row < 9; row++){
+      coordinateSet.push([row, column])
+    }
+    coordinateSets.push(coordinateSet)
+  }
+
+  return validateCoordinateSets(board, coordinateSets)
+}
+
+const validateRows = (board) => {
+  const coordinateSets = []
+  for(let row=0; row < 9; row++){
+    const coordinateSet = []
+    for(let column=0; column < 9; column++){
+      coordinateSet.push([row, column])
+    }
+    coordinateSets.push(coordinateSet)
+  }
+
+  return validateCoordinateSets(board, coordinateSets)
+}
+
+const validateCoordinateSets = (board, coordinateSets) => {
   let valid = true
 
-  for(let c=0; c < 9; c++){
-    if(!valid){
-      break
-    }
+  for(let i=0; i < coordinateSets.length; i++){
+    const set = coordinateSets[i]
 
     let arr = []
-    for(let r=0; r < 9; r++){
-      const cell = board[r][c]
+
+    for(let j=0; j < set.length; j++){
+      const coordinates = set[j]
+      const cell = board[coordinates[0]][coordinates[1]]
 
       if(cell != "."){
         if(arr[cell]){
@@ -27,34 +57,6 @@ const validateColumns = (board) => {
         }
       }
     }
-  }
-
-  return valid
-}
-
-const validateRows = (board) => {
-  let valid = true
-
-  for(let i=0; i < board.length; i++){
-    const row = board[i]
-    if(!valid){
-      break
-    }
-
-    let arr = []
-    for(let j=0; j < row.length; j++){
-      const cell = row[j]
-
-      if(cell !== "."){
-        if(arr[cell]){
-          valid = false
-          break
-        }{
-          arr[cell] = true
-        }
-      }
-    }
-
   }
 
   return valid
