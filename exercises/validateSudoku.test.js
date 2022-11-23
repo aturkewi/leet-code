@@ -62,3 +62,18 @@ test('returns false for an invalid column', () => {
 
   expect(isValidSudoku(board)).toEqual(false)
 })
+
+test('returns false for an invalid square', () => {
+  const board = getBlankBoard()
+
+  const row1 = getBlankRow()
+  row1[0] = "1"
+
+  const row2 = getBlankRow()
+  row2[1] = "1"
+
+  board[0] = row1
+  board[1] = row2
+
+  expect(isValidSudoku(board)).toEqual(false)
+})
